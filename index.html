@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<style>
+		html{
+			height: 100%;
+		}
+		@font-face{
+			src:url(18473.ttf);
+			font-family: my-font;
+		}
+		body{
+			font-family: my-font;
+			color: white;
+			height: 100%;
+		}
+		/*главная*/
+		.school{
+			position: absolute;
+			top:20%;
+			left: 70%
+		}
+		.mastery{
+			top:60%;
+			position: absolute;
+			left:40%;
+		}
+		.main_player{
+			position: absolute;
+			top:50%;
+			left: 50%;
+			transition:  0.8s;
+		}
+		.arena{
+			position: absolute;
+			top:20%;
+			left: 30%;
+		}
+		/*3 локация*/
+		.loc3_hp{
+			height: 40px;
+		}
+		.loc3_enemy{
+			position: absolute;
+			top:60%;
+			left: 35%
+		}
+		.loc3_player{
+			position: absolute;
+			top:60%;
+			left: 55%;
+			display: flex;
+		}
+		.loc3_sword{	
+			width: 80px;
+		}
+		.loc3_hit{
+			width: 50px;
+		}
+
+		/*2 локация*/
+		.loc2_teacher {
+			height: 100px;
+			width: 80px;
+			margin-left: 55%; 
+			position: absolute; 
+			margin-top: 10%;
+		}
+		.loc2_talk {
+			position: absolute;
+			width: 300px;
+			margin-left: 56%;
+			display: none
+		}
+
+		.loc2_pravilno{
+			background-color: gray; width: 100px; position: absolute; display: none
+		}
+
+		.loc2_player {
+			margin-left: 28%; margin-top: 26%; position: absolute;
+		}
+
+		.loc2_shpors {
+			background-color: gray; width: 100px; position: absolute;
+		}
+
+		.loc2_talkText {
+			position: absolute;
+			width: 200px;
+			margin-left: 59%;
+			margin-top: 3%;
+			display: none;
+			color: black
+		}
+		.loc2_timeSize {
+		font-size: 30px
+		}
+		.loc2_pole {
+			margin-top: 25%;
+			position: absolute;
+		}
+		/*1 локация*/
+			.loc1_kuznec {
+			height: 110px;
+			width: 80px;
+			position: absolute;
+			left: 35%;
+			top: 70%;
+			background-image: url(loc1/kuznec.png);
+			background-size: 100% 100%;
+		}
+		/* плеер */
+		.loc1_player {
+			height: 110px;
+			width: 80px;
+			position: absolute;
+			left: 45%;
+			top: 70%;
+			background-image: url(loc1/player.png);
+			background-size: 100% 100%;
+		}
+		/* наковальня */
+		.loc1_nakovalya {
+			height: 60px;
+			width: 100px;
+			position: absolute;
+			left: 55%;
+			top: 75%;
+			background-image: url(loc1/nakovalya.png);
+			background-size: 100% 100%;
+		}
+		/* меч */
+		.loc1_mech {
+			height: 100px;
+			width: 60px;
+			position: absolute;
+			left: 48%;
+			top: 70%;
+			background-image: url(loc1/mech.png);
+			background-size: 100% 100%;
+		}
+		/* сообщение */
+		.loc1_message {
+			display: none;
+			height: 250px;
+			width: 250px;
+			position: absolute;
+			left: 35%;
+			top: 35%;
+			background-image: url(loc1/talk.png);
+			background-size: 100% 100%;
+		}
+		.sword {
+			width: 130px; border: white 2px solid; display: none
+		}
+
+		.nojni {
+			width: 130px; border: white 2px solid; display: none
+		}
+		.shield {
+			width: 130px; border: white 2px solid; display: none
+		}
+	</style>
+</head>
+<body style="background-image:url(bg1.png); background-size: cover">
+	<div class="main">
+		<div class="sword">
+			<img src="sword.png">
+		</div>
+		<div class="nojni">
+			<img src="nojni.png">
+		</div>
+		<div class="shield">
+			<img src="shield.png">
+		</div>
+		
+		<div  class="school">
+			<img src="school.png" alt="">
+		</div>
+		<div  class="mastery"> 
+			<img src="masterskaya.png" alt="">
+		</div>
+		<div  class="arena"> 
+			<img src="arena.png" alt="">
+		</div>
+		<img src="player.png" alt="" class="main_player">
+	</div>
+	
+	<div class="location3" style="display: none">
+		<div class="loc3_enemy">
+			<h1 class="loc3_enemy_h1">HP:</h1>
+			<div class="loc3_enemy_hp loc3_hp bg-success rounded border"></div>
+			<img src="loc3/enemy.png" alt="">
+		</div>
+		
+		<div class="loc3_player">
+			<div>
+				<h1 class="loc3_player_h1">HP:</h1>
+				<div class="loc3_player_hp loc3_hp bg-success rounded border"></div>
+				<img src="loc3/player.png">
+			</div>		
+			<div class="bg-warning rounded">
+				<p class="mt-2">Нанеси урон</p>
+				<img src="loc3/sword.png" alt="" class="loc3_sword">
+				<img src="loc3/kulak.png" alt="" class="loc3_hit">
+			</div>
+								
+		</div>
+	</div>
+	<div class="location2" style="display: none">
+		<h6 class="text-light loc2_timeSize">Время: <span class="loc2_timeText ">10</span></h6>
+
+		<div class="mx-auto col-3 ">
+			<img src="Loc2/doska.png" style="position: absolute; width: 300px" >
+			<h4 class="p-2 pl-4 text-white" style="position: absolute; width: 300px">Что нужно чтобы выковать меч?</h4>
+		</div>
+		<div class="loc2_teacher"></div>
+
+
+			<div style="position: absolute; margin-top: 17%; margin-left: 25%">
+				<img src="Loc2/stol.png" style="width: 200px; position: absolute;">
+				<img src="Loc2/stol.png" style="width: 200px; position: absolute; margin-left: 220px">
+				<img src="Loc2/stol.png" style="width: 200px; position: absolute; margin-left: 440px">
+				<img src="Loc2/stol.png" style="width: 200px; position: absolute; margin-left: 660px">			
+			</div>
+			<div style="position: absolute; margin-top: 25%; margin-left: 25%">
+				<img src="Loc2/stol.png" style="width: 200px; position: absolute;">
+				<img src="Loc2/stol.png" style="width: 200px; position: absolute;margin-left: 220px">
+				<img src="Loc2/stol.png" style="width: 200px; position: absolute;margin-left: 440px">
+				<img src="Loc2/stol.png" style="width: 200px; position: absolute;margin-left: 660px">			
+			</div>
+		<div class="loc2_ques" style="margin-left: 2%; position: absolute;  margin-top: 25%;">	 
+		 </div>
+		<div  style="display: flex; position: absolute; margin-top: 30%; margin-left: 2%">
+			 <div class="loc2_shpors" style="display: none">Шпора 1: Мясо</div>
+			 <div class="loc2_shpors" style="margin-left: 150px; display: none">Шпора 2: Серебро</div>
+			 <div class="loc2_shpors" style="margin-left: 300px; display: none">Шпора 3: Алмаз</div>
+			 <div class="loc2_shpors" style="margin-top: 140px; display: none">Шпора 4: Золото</div>
+			 <div class="loc2_shpors" style="margin-top: 140px; margin-left: 150px; display: none">Шпора 5: Олово</div>
+			 <div class="loc2_pravilno" style="margin-top: 140px; margin-left: 300px; display: none">Шпора 6: Железная руда</div>
+		</div>
+
+
+		<img src="Loc2/player_fall.png" class="loc2_player">
+		<img src="Loc2/female_stand.png" class="loc2_teacher">
+		<img src="Loc2/talk.png" class="loc2_talk">
+		<h5 class="loc2_talkText" >Ответь на вопрос который на доске. У тебя мало времени</h5>
+
+	</div>
+	<div class="location1" style="display: none">	
+		<!-- комната -->
+		<div class="loc1_game1">
+			<!-- спан для времени -->
+			<h4>Время: <span class="loc1_timeTxt"></span></h4>
+			<!-- спан для счета -->
+			<h4>Счёт: <span class="loc1_scoreTxt"></span></h4>
+			<!-- кузнец -->
+			<div class="loc1_kuznec">	
+			</div>
+			<!-- наковальня -->
+			<div class="loc1_nakovalya">	
+			</div>
+			<!-- плеер -->
+			<div class="loc1_player">	
+			</div>
+			<!-- сообщение -->
+			<div class="loc1_message">
+			</div>
+		</div>
+	</div>
+		
+		
+
+	<script>
+    let mastery = document.querySelector(".mastery");
+    let school = document.querySelector(".school");
+    let arena = document.querySelector(".arena");
+    let main_block = document.querySelector(".main");
+    let location1 = document.querySelector(".location1");
+    let location2 = document.querySelector(".location2");
+    let location3 = document.querySelector(".location3");
+    let body = document.querySelector("body");
+    let main_player = document.querySelector(".main_player");
+    
+  	mastery.onclick = function(){
+  		main_player.style.top = "60%";
+        main_player.style.left = "40%";
+
+        let changeLocation1 = function (){
+            main_block.style.display = "none";
+            location1.style.display = "block";
+            body.style.backgroundImage = "url(loc1/bg.png)";
+		}
+		setTimeout(changeLocation1, 1000);
+
+		let loc1_message = document.querySelector(".loc1_message");
+    	let loc1_nakovalya = document.querySelector(".loc1_nakovalya");
+    	let loc1_scoreTxt = document.querySelector(".loc1_scoreTxt");
+    	let loc1_timeTxt = document.querySelector(".loc1_timeTxt");
+		let time = 10;
+		loc1_timeTxt.innerHTML = time;
+		let point = 0;
+		loc1_scoreTxt.innerHTML = point;
+		let showMessage = function(){
+			loc1_message.style.display = "block";
+			loc1_message.innerHTML = "Успей кликнуть 20 раз за 10 секунд по наковальне, чтобы создать меч.";
+			loc1_message.style.color = "black";
+			let timer = function() {
+				time = time - 1;
+				loc1_timeTxt.innerHTML = time;
+				if (time == 0) {
+					alert("Время вышло. Поробуй заново");
+					clearInterval(stop);
+					point = 0;
+					time = 10;
+				}
+			}
+			loc1_nakovalya.onclick = function(){
+				point = point + 1;
+				loc1_scoreTxt.innerHTML = point;
+				if (point >= 20) {
+					alert("Ты создал меч");
+					clearInterval(stop);
+					let mech = document.createElement('div');
+					document.body.appendChild(mech);
+					mech.classList.add("loc1_mech");
+					main_block.style.display = "block";
+		            location1.style.display = "none";
+		            body.style.backgroundImage = "url(bg1.png)";
+		            mech.style.display = "none";
+				}
+			}
+			let stop = setInterval(timer,1000);
+		}
+		setTimeout(showMessage, 3000); 
+		
+    }
+
+    school.onclick = function(){
+  		main_player.style.top = "20%";
+        main_player.style.left = "70%";
+
+        let changeLocation2 = function (){
+            main_block.style.display = "none";
+            location2.style.display = "block";
+            body.style.backgroundImage = "none";
+            body.style.backgroundColor = "green";
+		}
+		setTimeout(changeLocation2, 1000);
+
+		let loc2_talk = document.querySelector(".loc2_talk");
+		let loc2_talkText = document.querySelector(".loc2_talkText");
+		let loc2_shpors = document.querySelectorAll(".loc2_shpors");
+		let loc2_pravilno = document.querySelector(".loc2_pravilno");
+		let loc2_teacher = document.querySelector(".loc2_teacher");
+		let loc2_timeText = document.querySelector(".loc2_timeText");
+		let time1 = 10;
+		loc2_timeText.innerHTML = time1;
+
+		let showMessage1 = function(){
+			loc2_talk.style.display = "block";
+			loc2_talkText.style.display = "block";
+			let showShors = function(){
+				alert("У тебя 10 секунд! Смотри шпоры, пока учитель не смотрит");
+				for( let n=0; n<5; n=n+1){
+					loc2_shpors[n].style.display = "block";
+				}
+				loc2_pravilno.style.display = "block";
+				loc2_talk.style.display = "none";
+				loc2_talkText.style.display = "none";
+				loc2_teacher.style.src = "Loc2/female_back.png";
+				let timer1 = function() {
+					time1 = time1 - 1;
+					loc2_timeText.innerHTML = time1;
+					if (time1 == 0) {
+						alert("Время вышло.");
+						clearInterval(stop);
+					}
+				}
+				loc2_pravilno.onclick = function(){
+					alert("Молодец! Ты победил!");
+					clearInterval(stop);
+					main_block.style.display = "block";
+		            location2.style.display = "none";
+		            body.style.backgroundImage = "url(bg1.png)";
+		            loc2_shpors[n].style.display = "none";
+				}
+				for( let i=0; i<5; i=i+1){
+					loc2_shpors[i].onclick = function(){
+						alert("Не правильно. Попробуй еще!");
+						clearInterval(stop);
+						main_block.style.display = "block";
+			            location2.style.display = "none";
+			            body.style.backgroundImage = "url(bg1.png)";
+			            loc2_shporsAll [i].style.display = "none";
+					}
+				}
+				let stop = setInterval(timer1,1000);
+
+			}
+			setTimeout(showShors, 4000); 
+		}
+		setTimeout(showMessage1, 2000); 
+	}	
+
+	arena.onclick = function(){
+  		main_player.style.top = "20%";
+        main_player.style.left = "30%";
+
+        let changeLocation3 = function (){
+            main_block.style.display = "none";
+            location3.style.display = "block";
+            body.style.backgroundColor = "green";
+            body.style.backgroundImage = "url(Loc3/arena.png)";
+		}
+		setTimeout(changeLocation3, 1000);
+
+		let loc3_player = document.querySelector(".loc3_player");
+		let loc3_enemy = document.querySelector(".loc3_enemy");
+		let loc3_player_h1 = document.querySelector(".loc3_player_h1");
+		let loc3_enemy_h1 = document.querySelector(".loc3_enemy_h1");
+		let loc3_player_hp = document.querySelector(".loc3_player_hp");
+		let loc3_enemy_hp = document.querySelector(".loc3_enemy_hp");
+		let loc3_hit = document.querySelector(".loc3_hit");
+		let loc3_sword = document.querySelector(".loc3_sword");
+
+		let player = {
+		    hp:100,
+		    damage:10,
+		    name:"Игрок",
+		    hit:5,
+		}
+
+		loc3_player_h1.innerHTML = player.name;
+		loc3_player_hp.innerHTML = player.hp;
+
+		let getRand = function(){
+			let rand = Math.random() * 200;
+			let round = Math.round(rand);
+			return round;
+		}
+		let getRand1 = function(){
+			let rand = Math.random() * 20;
+			let round = Math.round(rand);
+			return round;
+		}
+
+		let enemy = {
+		    hp:getRand(),
+		    damage:getRand1(),
+		    name:"Враг",
+		}
+
+		loc3_enemy_h1.innerHTML = enemy.name;
+		loc3_enemy_hp.innerHTML = enemy.hp;	
+
+		loc3_sword.onclick = function(){
+			enemy.hp = enemy.hp - player.damage;
+			loc3_enemy_hp.innerHTML = enemy.hp;
+			let hide = function(){
+				player.hp = player.hp - enemy.damage;
+				loc3_player_hp.innerHTML = player.hp;
+			}
+			setTimeout(hide, 1000);
+			if(enemy.hp <=0){
+				alert("Игрок победил!");
+				main_block.style.display = "block";
+			    location3.style.display = "none";
+			    body.style.backgroundImage = "url(bg1.png)";
+			}
+			if(player.hp <=0){
+				alert("Игрок проиграл! Пройди заново!");
+				main_block.style.display = "block";
+			    location3.style.display = "none";
+			    body.style.backgroundImage = "url(bg1.png)";
+			}
+		}
+
+		loc3_hit.onclick = function(){
+			enemy.hp = enemy.hp - player.hit;
+			loc3_enemy_hp.innerHTML = enemy.hp;
+			let wide = function(){
+				player.hp = player.hp - enemy.damage;
+				loc3_player_hp.innerHTML = player.hp;
+			}
+			setTimeout(wide, 1000);
+			if(enemy.hp <=0){
+				alert("Игрок победил!");
+				main_block.style.display = "block";
+				location3.style.display = "none";
+			    body.style.backgroundImage = "url(bg1.png)";
+			}
+			if(player.hp <=0){
+				alert("Игрок проиграл! Пройди заново!");
+				main_block.style.display = "block";
+			    location3.style.display = "none";
+			    body.style.backgroundImage = "url(bg1.png)";
+			}
+		}
+	}	 
+	</script>
+</body>
+</html>
